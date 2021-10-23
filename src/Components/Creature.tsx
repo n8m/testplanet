@@ -4,14 +4,13 @@ export interface Icreature {
     name: string
     id: number
     [x: string]: any
-
 }
 
 interface creatureProps {
     creatures: Icreature[]
 }
 
-const Item = ({ creatures }:creatureProps ) => {
+const Creature = ({ creatures }:creatureProps ) => {
 
     //TODO remove any
     const { id } = useParams<{ id: any }>();
@@ -34,8 +33,7 @@ const Item = ({ creatures }:creatureProps ) => {
         <ul>
             {creatures.length && fields.map( field => <li key={field}>{field} - {creatures[id][field]}</li> )}
         </ul>
-
     </div>
 };
 
-export default Item;
+export default Creature;

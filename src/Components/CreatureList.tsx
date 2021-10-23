@@ -1,14 +1,12 @@
 import React, { useEffect, useState, MouseEvent } from "react";
 import { useHistory } from "react-router-dom";
-import { Icreature } from './Item';
+import { Icreature } from './Creature';
 
 interface CreatureListProps {
     creatures: Icreature[]
 }
 
-const ItemList = ({creatures}:CreatureListProps) => {
-
-    console.log('listPage');
+const CreatureList = ({creatures}:CreatureListProps) => {
 
     const history = useHistory();
 
@@ -21,4 +19,4 @@ const ItemList = ({creatures}:CreatureListProps) => {
     </ul>
 };
 
-export default ItemList;
+export default CreatureList;

@@ -1,102 +1,55 @@
 import {Route, Switch, BrowserRouter as Router, Link} from 'react-router-dom';
-import ItemList from "./Components/ItemList";
-import Item from "./Components/Item";
+import CreatureList from "./Components/CreatureList";
+import Creature from "./Components/Creature";
+import PlanetList from "./Components/PlanetList";
+import Planet from "./Components/Planet";
 import React, {useEffect, useState} from "react";
 import setIds from "./Utils/SetIds";
-import Settings from "./Settings/Settings";
-import { IEntity } from "./Settings/Settings";
+import { Icreature } from "./Components/Creature";
+import { Iplanet } from "./Components/Planet";
 
-export interface Icreature {
-    name: string
-    id: number
-}
+
 
 const MenuRouter = () => {
     
     const [creatures, setCreatures] = useState<Icreature[]>([]);
-
-    const [data, setData] = useState([[],[]]);
+    const [planets, setPlanets] = useState<Iplanet[]>([]);
 
     useEffect(() => {
 
-        const getData = async() => {
-            const results = await fetchUrls();
-            setData(results.map(item => item.results));
-            console.log(data);
+        const getCreatures = async() => {
+
+            const response = await fetch('https://swapi.dev/api/people');
+            const people = await response.json();
+            const peopleWithIds = setIds(people.results);
+            setCreatures(people.results);
+        };
+        getCreatures();
+
+        const getPlanets = async() => {
+
+            const response = await fetch('https://swapi.dev/api/planets');
+            const result = await response.json();
+            const resultWithIds = setIds(result.results);
+            setPlanets(result.results);
         };
 
-        const fetchUrls = async() => {
-            const requestUrls = Settings.map(entity => entity.dataUrl);
-            try {
-                const data = await Promise.all(
-                    requestUrls.map(
-                        url =>
-                            fetch(url).then(
-                                (response) => {return response.json()}
-                            )));
-                return data;
-            } catch (error) {
-                console.log(error)
-                throw (error)
-            }
-        };
-
-        getData();
-
-        // const getCreatures = async() => {
-        //
-        //     const requestUrls = Settings.map(entity => entity.dataUrl);
-        //
-        //
-        //     async function fetchMoviesAndCategories() {
-        //         const [moviesResponse, categoriesResponse] = await Promise.all([
-        //             fetch('/movies'),
-        //             fetch('/categories')
-        //         ]);
-        //         const movies = await moviesResponse.json();
-        //         const categories = await categoriesResponse.json();
-        //         return [movies, categories];
-        //     }
-        //     fetchMoviesAndCategories().then(([movies, categories]) => {
-        //         movies;     // fetched movies
-        //         categories; // fetched categories
-        //     }).catch(error => {
-        //         // /movies or /categories request failed
-        //     });
-        //
-        //
-        //
-        //
-        //     // const responses = await requestUrls.map( (url) => fetch(url));
-        //
-        //     // console.log(responses);
-        //
-        //
-        //     // const dt = await responses.map( (response:any) => response.json());
-        //
-        //
-        //     const response = await fetch('https://swapi.dev/api/people');
-        //     const people = await response.json();
-        //     const peopleWithIds = setIds(people.results);
-        //
-        //     setCreatures(people.results);
-        // };
-
-        // getCreatures();
+        getPlanets();
 
     },[]);
 
     return <Router>
 
-        {Settings.map(entity => <Link id={entity.id} to={`/${entity.route}`}>{entity.menuName}</Link> )}
+        <Link to='/creatures'>Creatures</Link>
+        <Link to='/planets'>Planets</Link>
+
 
         <Switch>
+            <Route path='/creatures/:id' render={() => <Creature creatures={creatures}   /> }></Route>
+            <Route path='/creatures' render={() => <CreatureList creatures={creatures} /> }></Route>
+            <Route path='/planets/:id' render={() => <Planet planets={planets}  /> }></Route>
+            <Route path='/planets' render={() => <PlanetList planets={planets}  /> }></Route>
 
-            {Settings.map( (entity, i) => <div id={entity.id}>
-                <Route path={`/${entity.route}/:id`} render={() => <Item creatures={data[i]}   /> }></Route>
-                <Route path={`/${entity.route}`} render={() => <ItemList creatures={data[i]} /> }></Route>
-            </div>
-            )}
 
         </Switch>
     </Router>
