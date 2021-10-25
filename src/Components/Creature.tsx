@@ -3,15 +3,15 @@ import ViewLayout from "./ViewLayout";
 import React from "react";
 
 const fields = [
-    "name" as const,
-    "height" as const,
-    "mass" as const,
-    "hair_color" as const,
-    "skin_color" as const,
-    "eye_color" as const,
-    "birth_year" as const,
-    "gender" as const,
-    "homeworld" as const,
+    "name",
+    "height",
+    "mass",
+    "hair_color",
+    "skin_color",
+    "eye_color",
+    "birth_year",
+    "gender",
+    "homeworld",
 ];
 
 type CreatureField = typeof fields[number];
