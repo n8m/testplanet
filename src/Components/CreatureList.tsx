@@ -1,21 +1,21 @@
 import React, { useEffect, useState, MouseEvent } from "react";
 import { useHistory } from "react-router-dom";
-import { Icreature } from './Creature';
+import { ICreature } from './Creature';
 
 interface CreatureListProps {
-    creatures: Icreature[]
+    creatures: ICreature[]
 }
 
 const CreatureList = ({creatures}:CreatureListProps) => {
 
     const history = useHistory();
 
-    const onItemClicked = (creature:Icreature) => {
-        history.push(`/creatures/${creature.id}`);
+    const onItemClicked = (i:number) => {
+        history.push(`/creatures/${i}`);
     };
 
     return <ul>
-        {creatures.map( creature => <li onDoubleClick={ (e) => onItemClicked(creature) } key={creature.id}>{creature.name}</li>)}
+        {creatures.map( (creature, i) => <li onDoubleClick={ (e) => onItemClicked(i) } key={i}>{creature.name}</li>)}
     </ul>
 };
 

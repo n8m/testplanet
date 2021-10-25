@@ -1,21 +1,21 @@
 import React, { useEffect, useState, MouseEvent } from "react";
 import { useHistory } from "react-router-dom";
-import { Iplanet } from './Planet';
+import { IPlanet } from './Planet';
 
 interface PlanetListProps {
-    planets: Iplanet[]
+    planets: IPlanet[]
 }
 
 const PlanetList = ({planets}:PlanetListProps) => {
 
     const history = useHistory();
 
-    const onItemClicked = (planet:Iplanet) => {
-        history.push(`/planets/${planet.id}`);
+    const onItemClicked = (i:number) => {
+        history.push(`/planets/${i}`);
     };
 
     return <ul>
-        {planets.map( planet => <li onDoubleClick={ (e) => onItemClicked(planet) } key={planet.id}>{planet.name}</li>)}
+        {planets.map( (planet,i) => <li onDoubleClick={ (e) => onItemClicked(i) } key={i}>{planet.name}</li>)}
     </ul>
 };
 

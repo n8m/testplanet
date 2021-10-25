@@ -1,39 +1,30 @@
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
+import ViewLayout from "./ViewLayout";
+import React from "react";
 
-export interface Icreature {
-    name: string
-    id: number
-    [x: string]: any
-}
+const fields = [
+    "name" as const,
+    "height" as const,
+    "mass" as const,
+    "hair_color" as const,
+    "skin_color" as const,
+    "eye_color" as const,
+    "birth_year" as const,
+    "gender" as const,
+    "homeworld" as const,
+];
+
+type CreatureField = typeof fields[number];
+
+export interface ICreature extends Record<CreatureField, string>{}
 
 interface creatureProps {
-    creatures: Icreature[]
+    creatures: ICreature[]
 }
 
-const Creature = ({ creatures }:creatureProps ) => {
-
-    //TODO remove any
-    const { id } = useParams<{ id: any }>();
-
-    const fields = [
-        "name",
-        "height",
-        "mass",
-        "hair_color",
-        "skin_color",
-        "eye_color",
-        "birth_year",
-        "gender",
-        "homeworld"
-    ];
-
-    return <div>
-        <h1>Creature</h1>
-
-        <ul>
-            {creatures.length && fields.map( field => <li key={field}>{field} - {creatures[id][field]}</li> )}
-        </ul>
-    </div>
+const Creature = ({creatures}: creatureProps) => {
+    const {id} = useParams<{ id: string }>();
+    return <ViewLayout item={creatures[+id]} fields={fields} title="Creature"/>
 };
 
 export default Creature;
