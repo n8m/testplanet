@@ -1,4 +1,4 @@
-import React, { useEffect, useState, MouseEvent } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { IPlanet } from './Planet';
 
